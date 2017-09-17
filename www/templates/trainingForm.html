@@ -1,0 +1,43 @@
+<ion-view view-title="Edit training">
+  <ion-nav-bar class="bar custom-bar" align-title="center">
+    <ion-nav-back-button></ion-nav-back-button>
+  </ion-nav-bar>
+
+  <ion-content>
+    <div class="list">
+      <label class="item item-input">
+        <input type="text" placeholder="sport" ng-model="trainingForm.sport">
+      </label>
+      <label class="item item-input">
+        <span>
+          <i class="icon ion-clock"></i>
+        </span>
+        <span>
+            <input type="tel" placeholder="duration in min" ng-model="trainingForm.duration">
+        </span>
+      </label>
+      <label class="item item-input">
+        <input type="tel" placeholder="distance in km" ng-model="trainingForm.distance">
+      </label>
+      <label class="item item-input">
+        <span>
+          <input class="icon ion-calendar" type="date" ng-model="trainingForm.date">
+        </span>
+      </label>
+    </div>
+
+
+    <button ng-show="!trainingForm.id" class="button ng-hide button-center customBtn" ng-click="saveTraining()">
+      Save
+    </button>
+
+    <div ng-show="trainingForm.id" class="button-bar">
+      <a class="button button-positive" ng-click="saveTraining()">
+        <i class="icon ion-checkmark"></i>
+      </a>
+      <a class="button button-assertive" ng-click="confirmDelete(trainingForm.id)">
+        <i class="icon ion-trash-b"></i>
+      </a>
+    </div>
+  </ion-content>
+</ion-view>

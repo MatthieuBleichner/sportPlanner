@@ -1,0 +1,22 @@
+<ion-view>
+  <ion-nav-bar class="bar custom-bar" align-title="center">
+    <ion-nav-back-button></ion-nav-back-button>
+  </ion-nav-bar>
+  <ion-nav-title>
+  Competitions
+</ion-nav-title>
+  <ion-content >
+      <div class="card" ng-repeat="item in itemsList" >
+        <div class="item item-text-wrap" ng-click="gotoEdit(item.id)">
+          {{item.sport }}   {{item.date | date:'dd MMMM yyyy'}} {{item.duration | date:'HH h mm'}}
+        </div>
+      </div>
+      <a href="#/form/" class="button button-block customBtn">
+        <i class="icon ion-plus-circled"></i> Add event
+      </a>
+
+      <a href="#/list/" class="button button-block customBtn">
+        <i class="icon ion-chevron-left"> Back to list</i>
+      </a>
+  </ion-content>
+</ion-view>

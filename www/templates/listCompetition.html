@@ -1,0 +1,28 @@
+<ion-view class = "myView">
+  <ion-nav-bar class="bar mainTitle bar-royal" align-title="center">
+    <ion-nav-back-button></ion-nav-back-button>
+  </ion-nav-bar>
+  <ion-nav-title>
+  Competitions
+</ion-nav-title>
+    <ion-content>
+      <button class="button button-float" ng-click="openModalCompetitionWithData(item)">
+        <i class="icon ion-plus"></i>
+      </button>
+  <div id="timeline">
+    <div class="timeline-item" ng-repeat="item in itemsList">
+      <div class="timeline-icon"> <img src={{item.imgUrl}}  alt=""> </div>
+      <div class="timeline-content" >
+        <div class="date">{{item.activityDate | date:'dd MMM'}}</div>
+        <h2>{{item.title}}</h2>
+        <blockquote ng-if="item.content!='undefined'">{{item.content}}</blockquote>
+        <a class="bnt-more" href="javascript:void(0)">More</a>
+      </div>
+    </div>
+  </div>
+
+
+
+</ion-content>
+
+</ion-view>

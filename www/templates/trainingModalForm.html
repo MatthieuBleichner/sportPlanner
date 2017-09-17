@@ -1,0 +1,47 @@
+<ion-modal-view class="modalView">
+  <header class="bar bar-header customBar bar-positive ">
+    <h1 class="title">{{trainingForm.sport}}</h1>
+    <div class="button button-clear" ng-click="loginModal.hide()"><span class="icon ion-close"></span></div>
+  </header>
+
+  <ion-tabs class="tabs-icon-top tabs-color-active-positive" >
+
+    <!-- Account Tab -->
+    <ion-tab title="Sport" icon-off="ion-ios-circle-outline" icon-on="ion-ios-circle-filled">
+      <ion-nav-view name="tab-trainingSport">
+        <ion-content  overflow-scroll="false">
+          <span>
+              <input type="text" placeholder="sport" ng-model="sport">
+          </span>
+        </ion-content>
+      </ion-nav-view>
+    </ion-tab>
+
+    <!-- Dashboard Tab -->
+    <ion-tab title="Duration" icon-off="ion-ios-circle-outline" icon-on="ion-ios-circle-filled">
+      <ion-nav-view name="tab-trainingDuration">
+        <ion-content  overflow-scroll="false">
+          <span>
+              <input type="tel" placeholder="min" ng-model="duration">
+          </span>
+        </ion-content>
+      </ion-nav-view>
+    </ion-tab>
+
+    <!-- Chats Tab -->
+    <ion-tab title="Distance" icon-off="ion-ios-circle-outline" icon-on="ion-ios-circle-filled">
+      <ion-nav-view name="tab-trainingDistance">
+        <ion-content  overflow-scroll="false">
+          <span>
+              <input type="tel" placeholder="KM" ng-model="distance">
+          </span>
+        </ion-content>
+      </ion-nav-view>
+    </ion-tab>
+
+
+
+
+  </ion-tabs>
+
+</ion-modal-view>

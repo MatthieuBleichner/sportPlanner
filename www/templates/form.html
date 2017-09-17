@@ -1,0 +1,48 @@
+<ion-view view-title="Edit competition">
+  <ion-nav-bar class="bar-assertive" align-title="center">
+    <ion-nav-back-button></ion-nav-back-button>
+  </ion-nav-bar>
+
+  <ion-content>
+    <div class="list">
+      <label class="item item-input">
+        <input type="text" placeholder="Title" ng-model="competitionForm.title">
+      </label>
+      <label class="item item-input">
+        <textarea placeholder="Comments" ng-model="competitionForm.content"></textarea>
+      </label>
+      <label class="item item-input">
+        <span>
+          <i class="icon ion-calendar"></i>
+        </span>
+        <span>
+            <input type="date" ng-model="competitionForm.activityDate">
+        </span>
+      </label>
+      <label class="item item-input">
+        <span>
+          <i class="icon ion-clock"></i>
+        </span>
+          <span>
+            <input type="time" ng-model="competitionForm.myDate">
+          </span>
+      </label>
+
+
+    </div>
+
+
+    <button ng-show="!competitionForm.id" class="button ng-hide button-center customBtn" ng-click="saveCompetition()">
+      Save
+    </button>
+
+    <div ng-show="competitionForm.id" class="button-bar">
+      <a class="button button-positive" ng-click="saveCompetition()">
+        <i class="icon ion-checkmark"></i>
+      </a>
+      <a class="button button-assertive" ng-click="confirmDelete(competitionForm.id)">
+        <i class="icon ion-trash-b"></i>
+      </a>
+    </div>
+  </ion-content>
+</ion-view>
