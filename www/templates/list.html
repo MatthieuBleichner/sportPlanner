@@ -46,8 +46,15 @@
       </div>
       <div ng-if="$index<3" class="card" ng-repeat="training in trainingList" >
         <!--div class="item item-text-wrap" ng-click="openModalTrainingWithData(training.id )"-->
+
           <div class="item item-text-wrap" ng-click="openModalTrainingWithData(training.id )">
-          {{training.sport }}   {{training.distance}}
+            <ion-avatar>
+              <img src={{training.imgUrl}} class="sportpicsize"  >
+            </ion-avatar>
+            <div  class="item-position">
+              <h2 >{{training.title}}</h2>
+              <p>{{training.trainingDate | date:'dd/MM'}}</p>
+            </div>
         </div>
       </div>
       <a ng-if="trainingList.length<=2" class="button button-block customBtn" ng-click="openModalTrainingWithData(training.id )">

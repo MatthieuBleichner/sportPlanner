@@ -254,7 +254,7 @@ angular.module('starter.controllers', [])
   })
 
 
-  .controller('trainingModalFormCtrl', function ($scope,$ionicPlatform, $stateParams, CompetitionDataService) {
+  .controller('trainingModalFormCtrl', function ($scope, $stateParams, $ionicPopup, $state, CompetitionDataService, $ionicTabsDelegate, $timeout) {
     $scope.$on('$ionicView.enter', function(e) {
       initForm()
     })
@@ -268,6 +268,18 @@ angular.module('starter.controllers', [])
         $scope.trainingForm = {};
         $scope.trainingForm.date = new Date();
       }
+    }
+
+    $scope.sportChange = function(item) {
+      console.log("Sport is :", item.id);
+      $scope.trainingForm.sport_id = item.id;
+      CompetitionDataService.getSportImgUrl(item.id, function(imgUrl){
+        $scope.trainingForm.imgUrl  = imgUrl.logoURL
+      })
+    }
+
+    function onSaveSuccess(){
+      $state.go('list');
     }
 
       $scope.saveTraining = function(){

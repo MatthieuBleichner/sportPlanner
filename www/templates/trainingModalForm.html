@@ -1,4 +1,4 @@
-<ion-modal-view class="modalView">
+<ion-modal-view class="modalView" ng-controller="trainingModalFormCtrl" type="text/ng-template">
   <header class="bar bar-header customBar bar-positive ">
     <div class="button button-clear" ng-click="closeModal()"><span class="icon ion-close"></span></div>
     <h1 class="title">{{trainingForm.title}}</h1>
@@ -31,7 +31,7 @@
       <ion-nav-view name="tab-trainingDuration">
         <ion-content  class="navElem">
           <span>
-              <input type="tel" placeholder="min" ng-model="duration"> min
+              <input type="tel" placeholder="min" ng-model="trainingForm.duration"> min
           </span>
 
         </ion-content>
@@ -43,10 +43,10 @@
       <ion-nav-view name="tab-trainingDistance">
         <ion-content   class="navElem"> OK
           <span>
-              <input type="tel" placeholder="KM" ng-model="distance"> KM
+              <input type="tel" placeholder="KM" ng-model="trainingForm.distance"> KM
           </span>
         </ion-content>
-      </ion-nav-view>  class="navElem"
+      </ion-nav-view>
     </ion-tab>
 
 
@@ -59,6 +59,18 @@
       </ion-nav-view>
     </ion-tab>
 
+    <!-- Date Tab -->
+    <ion-tab title="Date" icon-off="ion-ios-calendar-outline" icon-on="ion-ios-calendar">
+      <ion-nav-view name="tab-competitionDate">
+        <ion-content  class="navElem">
+          <label class="item item-input">
+            <span>
+      		      <input type="date" ng-model="trainingForm.date">
+            </span>
+          </label>
+      	</ion-content>
+      </ion-nav-view>
+    </ion-tab>
 
 
   </ion-tabs>

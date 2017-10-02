@@ -142,7 +142,8 @@ angular.module('starter.services', ['ngCordova'])
       //TRainings
       createTraining: function (training) {
       console.info('create training')
-        return $cordovaSQLite.execute(db, 'INSERT INTO T_TRAINING (sport_id, duration, distance, trainingDate, imgUrl, title) VALUES( ? , ? , ? , ?)', [training.sport_id, training.duration, training.distance,training.date.getTime(),training.imgUrl, training.title])
+        return $cordovaSQLite.execute(db, 'INSERT INTO T_TRAINING (sport_id, duration, distance, trainingDate, imgUrl, title) VALUES( ? , ? , ? , ? , ? , ?)', [training.sport_id, training.duration, training.distance,training.date.getTime(),training.imgUrl, training.title]).then(function(res){
+        }, onErrorQuery)
       },
       updateTraining: function(training){
         return $cordovaSQLite.execute(db, 'UPDATE T_TRAINING set sport_id = ?, duration = ?, distance = ?, trainingDate = ?, imgUrl = ?, title = ? where id = ?', [training.sport_id, training.duration, training.distance, training.date.getTime(), training.imgUrl, training.title, training.id])

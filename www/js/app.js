@@ -44,12 +44,6 @@ angular.module('starter', ['ionic','starter.controllers', 'starter.services', 'i
       },
     })
 
-    .state('trainingModalForm', {
-      url: '/trainingModalForm/{id}',
-      templateUrl: 'templates/trainingModalForm.html',
-      controller: 'trainingModalFormCtrl'
-    })
-
     .state('competitionModalForm', {
       url: '/competitionModalForm/{id}',
       templateUrl: 'templates/competitionModalForm.html',
@@ -59,5 +53,13 @@ angular.module('starter', ['ionic','starter.controllers', 'starter.services', 'i
       },
     })
 
+    .state('trainingModalForm', {
+      url: '/trainingModalForm/{id}',
+      templateUrl: 'templates/trainingModalForm.html',
+      controller: 'trainingModalFormCtrl',
+      params: {
+        id: {value: null},
+      },
+    })
   $urlRouterProvider.otherwise('/list')
 })
