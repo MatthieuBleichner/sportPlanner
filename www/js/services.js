@@ -1,6 +1,6 @@
 angular.module('starter.services', ['ngCordova'])
   .factory('CompetitionDataService', function ($cordovaSQLite, $ionicPlatform) {
-    var db, dbName = "competition100.db"
+    var db, dbName = "competition102.db"
 
     function useWebSql() {
       db = window.openDatabase(dbName, "1.0", "Note database", 200000)
@@ -33,7 +33,7 @@ angular.module('starter.services', ['ngCordova'])
 
         initSportDB();
 
-      $cordovaSQLite.execute(db, 'CREATE TABLE IF NOT EXISTS T_TRAINING (id integer primary key, sport, duration, distance, trainingDate date)')
+      $cordovaSQLite.execute(db, 'CREATE TABLE IF NOT EXISTS T_TRAINING (id integer primary key, sport_id, duration, distance, trainingDate date, imgUrl, title)')
         .then(function(res){
         }, onErrorQuery)
     }
@@ -142,10 +142,10 @@ angular.module('starter.services', ['ngCordova'])
       //TRainings
       createTraining: function (training) {
       console.info('create training')
-        return $cordovaSQLite.execute(db, 'INSERT INTO T_TRAINING (sport, duration, distance, trainingDate) VALUES( ? , ? , ? , ?)', [training.sport, training.duration, training.distance,training.date.getTime()])
+        return $cordovaSQLite.execute(db, 'INSERT INTO T_TRAINING (sport_id, duration, distance, trainingDate, imgUrl, title) VALUES( ? , ? , ? , ?)', [training.sport_id, training.duration, training.distance,training.date.getTime(),training.imgUrl, training.title])
       },
       updateTraining: function(training){
-        return $cordovaSQLite.execute(db, 'UPDATE T_TRAINING set sport = ?, duration = ?, distance = ?, trainingDate = ? where id = ?', [training.sport, training.duration, training.distance, training.date.getTime(), training.id])
+        return $cordovaSQLite.execute(db, 'UPDATE T_TRAINING set sport_id = ?, duration = ?, distance = ?, trainingDate = ?, imgUrl = ?, title = ? where id = ?', [training.sport_id, training.duration, training.distance, training.date.getTime(), training.imgUrl, training.title, training.id])
       },
       getAllTrainings: function(callback){
         $ionicPlatform.ready(function () {

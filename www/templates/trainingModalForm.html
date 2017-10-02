@@ -1,44 +1,63 @@
 <ion-modal-view class="modalView">
   <header class="bar bar-header customBar bar-positive ">
-    <h1 class="title">{{trainingForm.sport}}</h1>
-    <div class="button button-clear" ng-click="loginModal.hide()"><span class="icon ion-close"></span></div>
+    <div class="button button-clear" ng-click="closeModal()"><span class="icon ion-close"></span></div>
+    <h1 class="title">{{trainingForm.title}}</h1>
+    <div class="button button-clear" ng-click="saveModal()"><span class="icon ion-checkmark"></span></div>
   </header>
+
 
   <ion-tabs class="tabs-icon-top tabs-color-active-positive" >
 
+
     <!-- Account Tab -->
-    <ion-tab title="Sport" icon-off="ion-ios-circle-outline" icon-on="ion-ios-circle-filled">
+    <ion-tab title="Sport" icon-off="ion-ios-body-outline" icon-on="ion-ios-body">
       <ion-nav-view name="tab-trainingSport">
-        <ion-content  overflow-scroll="false">
-          <span>
-              <input type="text" placeholder="sport" ng-model="sport">
-          </span>
+        <ion-content  overflow-scroll="false" has-header="true">
+
+
+          <ion-radio  ng-repeat="sport in sportList"
+                      ng-value="sport.name"
+                      ng-model="sportType"
+                      ng-change="sportChange(sport)"
+                      name="sport">
+            {{ sport.name }}
+          </ion-radio>
         </ion-content>
       </ion-nav-view>
     </ion-tab>
 
     <!-- Dashboard Tab -->
-    <ion-tab title="Duration" icon-off="ion-ios-circle-outline" icon-on="ion-ios-circle-filled">
+    <ion-tab title="Duration" icon-off="ion-ios-stopwatch-outline" icon-on="ion-ios-stopwatch">
       <ion-nav-view name="tab-trainingDuration">
-        <ion-content  overflow-scroll="false">
+        <ion-content  class="navElem">
           <span>
-              <input type="tel" placeholder="min" ng-model="duration">
+              <input type="tel" placeholder="min" ng-model="duration"> min
           </span>
+
         </ion-content>
       </ion-nav-view>
     </ion-tab>
 
     <!-- Chats Tab -->
-    <ion-tab title="Distance" icon-off="ion-ios-circle-outline" icon-on="ion-ios-circle-filled">
+    <ion-tab title="Distance" icon-off="ion-android-navigate" icon-on="ion-android-navigate">
       <ion-nav-view name="tab-trainingDistance">
-        <ion-content  overflow-scroll="false">
+        <ion-content   class="navElem"> OK
           <span>
-              <input type="tel" placeholder="KM" ng-model="distance">
+              <input type="tel" placeholder="KM" ng-model="distance"> KM
           </span>
         </ion-content>
-      </ion-nav-view>
+      </ion-nav-view>  class="navElem"
     </ion-tab>
 
+
+    <!-- Name Tab -->
+    <ion-tab title="Name" icon-off="ion-ios-pricetags-outline" icon-on="ion-ios-pricetags">
+      <ion-nav-view name="tab-trainingName">
+        <ion-content class="navElem">
+      		    <input type="text" ng-model="trainingForm.title" style="text-align: center" class="col col-center" autofocus  onfocus="this.value = this.value;" placeholder="Enter training name">
+      	</ion-content>
+      </ion-nav-view>
+    </ion-tab>
 
 
 

@@ -25,7 +25,6 @@
 
 .even-more-custom-icon {
   font-size: 128px;
-  color : #3155aa;
 }
 
 .button.customBtn{
@@ -39,6 +38,12 @@
     top:5%;
     right  : -70%;
     font-size: 30px;
+  }
+.button.competionButton{
+    background:white;
+    top:5%;
+    right  : -70%;
+    font-size: 20px;
   }
 
 
@@ -266,7 +271,7 @@ h4 {
 #timeline .timeline-item .timeline-content {
   width: 45%;
   background: #fff;
-  padding: 20px;
+  padding: 10px;
   -webkit-box-shadow: 0 3px 0 rgba(0,0,0,0.1);
   -moz-box-shadow: 0 3px 0 rgba(0,0,0,0.1);
   -ms-box-shadow: 0 3px 0 rgba(0,0,0,0.1);
@@ -283,6 +288,7 @@ h4 {
 
 #timeline .timeline-item .timeline-content h2 {
   padding: 15px;
+  padding-top: 0px;
   margin: -20px -20px 0 -20px;
   font-weight: 300;
   -webkit-border-radius: 3px 3px 0 0;
@@ -340,10 +346,10 @@ h4 {
 }
 
 blockquote {
-	margin-top: 30px;
+	margin-top: 5px;
 	color: $secondary-text;
 	border-left-color: $primary;
-	padding: 0 20px;
+	padding: 0 10px;
 }
 
 .date {

@@ -95,10 +95,13 @@ angular.module('starter.controllers', [])
 
   })
 
-  .controller('listCompetitionCtrl', function ($scope,$ionicPlatform, $state, CompetitionDataService, $ionicModal) {
+  .controller('listCompetitionCtrl', function ($scope,$ionicPlatform, $state, CompetitionDataService, $ionicModal, $ionicPopup) {
     $scope.$on('$ionicView.enter', function(e) {
         CompetitionDataService.getAll(function(data){
           $scope.itemsList = data
+        })
+        CompetitionDataService.getAllSports(function(dataSports){
+          $scope.sportList = dataSports
         })
     })
 
@@ -140,7 +143,19 @@ angular.module('starter.controllers', [])
 
     };
 
+    $scope.confirmDelete = function(idCompetition) {
+      var confirmPopup = $ionicPopup.confirm({
+        title: 'Remove a competition',
+        template: 'Are you sure you want to remove this event ?'
+      })
 
+      confirmPopup.then(function(res) {
+        if(res) {
+          CompetitionDataService.deleteCompetition(idCompetition);
+          $state.reload();
+        }
+      })
+    }
 
   })
 
@@ -254,6 +269,30 @@ angular.module('starter.controllers', [])
         $scope.trainingForm.date = new Date();
       }
     }
+
+      $scope.saveTraining = function(){
+
+        if(!$scope.trainingForm.id){
+          CompetitionDataService.createTraining($scope.trainingForm).then(onSaveSuccess)
+        } else {
+          CompetitionDataService.updateTraining($scope.trainingForm).then(onSaveSuccess)
+        }
+      }
+        $scope.closeModal = function() {
+          $ionicTabsDelegate.select(0); //by pass pour avoir la premiere tab sélectionnée par defaut
+          $scope.loginModal.hide();
+        };
+
+        $scope.saveModal = function() {
+          $scope.saveTraining();
+          $ionicTabsDelegate.select(0); //by pass pour avoir la premiere tab sélectionnée par defaut
+          CompetitionDataService.getAllTrainings(function(data){
+            $scope.itemsList = data
+          })
+
+          $scope.loginModal.hide();
+          $state.reload();
+        };
   })
 
 
