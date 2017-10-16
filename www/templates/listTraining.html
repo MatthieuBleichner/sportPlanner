@@ -8,10 +8,10 @@
   <ion-content >
 
       <div class="ionic_Calendar">
-        <div class="calendar_Week" ng-show="UICalendarDisplay.Week">
+        <div class="calendar_Week swipe" ng-show="UICalendarDisplay.Week" on-swipe-left="selectedWeekNextClick()" on-swipe-rigth="selectedWeekPrevClick()">
           <div class="row" style=" background-color: #3F3F3F;  color: white;">
             <div class="col txtCenter" ><i class="icon ion-chevron-left" ng-click="selectedWeekPrevClick()"></i></div>
-            <div class="col col-75 txtCenter" ng-click="UIdisplayWeekToDate()"> W {{displayWeek}} {{displayYear}}</div>
+            <div class="col col-75 txtCenter" ng-click="UIdisplayWeekToDate()"> Week {{displayWeek}} - {{displayYear}}</div>
             <div class="col txtCenter"><i class="icon ion-chevron-right"  ng-click="selectedWeekNextClick()"></i></div>
           </div>
           <div  class = "row WeekDisplay" ng-repeat = "day in weekDays track by $index"  ng-class="{'marginTop0':$first}">
@@ -19,14 +19,11 @@
               <div class="col">{{day}}</div>
 
             </div>
-            <div class="row Daysheading WeekDisplay txtCenter">
-
-                <div class="col" ng-repeat = "colVal in weekDaysEvents[$index]" ng-class="{'fadeDateDisp':(colVal.type == 'oldMonth' || colVal.type == 'newMonth'), 'selDate':(colVal.date == displayDate && colVal.type == 'currentMonth')}"  ng-click="selectedDateClick(colVal)" >
+            <div class="row WeekDisplay txtCenter">
+                <div class="col" ng-repeat = "colVal in weekDaysEvents[$index]"  ng-click="selectedDateClick(colVal)" >
                   <img src={{colVal.img}} class="sportpicsize">
                   {{colVal.duration}} min
-
                 </div>
-
             </div>
           </div>
 
