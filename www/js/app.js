@@ -61,5 +61,12 @@ angular.module('starter', ['ionic','starter.controllers', 'starter.services', 'i
         id: {value: null},
       },
     })
+
+    .state('listTraining', {
+      url: '/listTraining',
+      templateUrl: 'templates/listTraining.html',
+      controller: 'listTrainingCtrl'
+    })
+
   $urlRouterProvider.otherwise('/list')
 })

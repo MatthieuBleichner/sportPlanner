@@ -13,8 +13,8 @@
         <i class="icon ion-trophy"></i>
         Competition
       </div>
-        <ion-list>
-          <ion-item all-lines ng-if="$index<3" ng-repeat="item in itemsList">
+        <ion-list  no-lines>
+          <ion-item ng-if="$index<3" ng-repeat="item in itemsList">
             <ion-avatar>
               <img src={{item.imgUrl}} class="sportpicsize"  >
             </ion-avatar>
@@ -26,10 +26,10 @@
           </ion-item>
         </ion-list>
         <ion-item>
-          <a ng-if="itemsList.length<=2" ng-click="openModalCompetitionWithData(item)" class="button button-block customBtn">
+          <a ng-if="itemsList.length<=2" ng-click="openModalCompetitionWithData(item)" class="button button-block customBtnInList">
             <i class="icon ion-plus-circled"></i> Add event
           </a>
-          <a ng-if="itemsList.length>2" href="#/listCompetition" class="button button-block customBtn">
+          <a ng-if="itemsList.length>2" href="#/listCompetition" class="button button-block customBtnInList">
             See more  <i class="icon ion-chevron-right"></i>
           </a>
         </ion-item>
@@ -53,7 +53,7 @@
             </ion-avatar>
             <div  class="item-position">
               <h2 >{{training.title}}</h2>
-              <p>{{training.trainingDate | date:'dd/MM'}}</p>
+              <p>{{training.displayDate | date:'dd/MM'}}</p>
             </div>
         </div>
       </div>

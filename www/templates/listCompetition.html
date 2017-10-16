@@ -2,27 +2,26 @@
   <ion-nav-bar class="bar mainTitle bar-royal" align-title="center">
     <ion-nav-back-button></ion-nav-back-button>
   </ion-nav-bar>
-  <ion-nav-title>
+  <ion-nav-title class="mainTitle">
   Competitions
 </ion-nav-title>
-    <ion-content>
 
-  <div id="timeline">
-    <div class="timeline-item" ng-repeat="item in itemsList">
-      <div class="timeline-icon"> <img src={{item.imgUrl}}  alt=""> </div>
-      <div class="timeline-content" >
-        <div class="date">{{item.activityDate | date:'dd MMM'}}</div>
-        <h2>{{item.title}}</h2>
-        <blockquote ng-if="item.content!='undefined'">{{item.content}}</blockquote>
-        <div class="button competionButton" ng-click="confirmDelete(item.id)"> <i class="icon ion-ios-trash   custom-icon"></i></div>
-        <div class="button competionButton" ng-click="openModalCompetitionWithData(item)"> <i class="icon ion-compose   custom-icon"></i></div>
+  <ion-content>
+    <div class="button ion-chevron-up" ng-click="dislayPastEvents(item)">See past events</div>
+
+    <div id="timeline">
+      <div class="timeline-item" ng-repeat="item in itemsList">
+        <div class="timeline-icon"> <img src={{item.imgUrl}}  alt=""> </div>
+        <div class="timeline-content" >
+          <div class="date">{{item.activityDate | date:'dd MMM'}}</div>
+          <h2>{{item.title}}</h2>
+          <blockquote ng-if="item.content!='undefined'">{{item.content}}</blockquote>
+          <div class="button competionButton" ng-click="confirmDelete(item.id)"> <i class="icon ion-ios-trash   custom-icon"></i></div>
+          <div class="button competionButton" ng-click="openModalCompetitionWithData(item)"> <i class="icon ion-compose   custom-icon"></i></div>
+        </div>
       </div>
     </div>
-  </div>
-
-
-
-</ion-content>
+  </ion-content>
 
 <footer>
   <button ion-fixed class="button button-float" ng-click="openModalCompetitionWithData(item)">
