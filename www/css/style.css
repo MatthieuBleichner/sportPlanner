@@ -171,6 +171,8 @@
 
 
 
+
+
 ///////////////////////////////////
 
 /* latin-ext */
@@ -375,6 +377,40 @@ blockquote {
     border-bottom: none;
 }
 
+.trainingDate{
+  margin-top: 30px;
+  right: 50px;
+  font-weight: bold;
+  font-size: 50px;
+  padding: 17px;
+  text-align:center;
+  color:#f5511e !important
+}
+
+
+.trainingDay{
+  font-weight: bold;
+  font-size: 25px;
+  text-align:center;
+  color:#f5511e !important
+}
+
+.trainingMonth{
+  font-weight: bold;
+  padding: 17px;
+  font-size: 15px;
+  text-align:center;
+  color:#d9d9d9 !important
+}
+
+.imageChangeTrainingDisplay{
+  color:#d9d9d9 !important;
+  position: absolute;
+  top    : 2%;
+  right  : 8%;
+  font-size: 30px;
+}
+
 .ionic_Calendar .calendar_Date .row.Daysheading {text-align:center;}
 .ionic_Calendar .txtCenter {text-align:center;}
 .ionic_Calendar .col.selMonth { background-color: #387ef5; color:white; }
@@ -391,4 +427,4 @@ blockquote {
 .ionic_Calendar .paddingBottom0 { padding-bottom: 0px !important;}
 .ionic_Calendar .Daysheading_Label .col { padding-bottom: 0px !important;}
 .ionic_Calendar .WeekDisplay.row{ padding-left: 0px; padding-right: 0px; }
-.ionic_Calendar .WeekDisplay .col{ padding-top: 30px; font-size: 15px; height: 80px }
+.ionic_Calendar .WeekDisplay .col{ border: 1px solid #F3F3F3; padding-top: 5px; font-size: 15px; height: 40px }

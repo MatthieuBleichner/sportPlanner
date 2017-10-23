@@ -293,6 +293,7 @@ angular.module('starter.controllers', [])
                 } else {
                     var format = $scope.dateformat;
                 }
+                $scope.displayWeekDay = moment(timeStamp).format('dddd');
                 //$scope.display = $filter('date')(timeStamp, format);
             }
 
@@ -312,6 +313,14 @@ angular.module('starter.controllers', [])
                 $scope.UICalendarDisplay.Month = false;
                 $scope.UICalendarDisplay.Year = false;
                 $scope.displayMonthCalendar(); // uniquement pour week to date car il faut initialiser les données de displayMonthCalendar
+            }
+
+            $scope.UIdisplayDateToWeek = function() {
+                $scope.UICalendarDisplay.Week = true;
+                $scope.UICalendarDisplay.Date = false;
+                $scope.UICalendarDisplay.Month = false;
+                $scope.UICalendarDisplay.Year = false;
+                $scope.displayWeekCalendar(); // uniquement pour week to date car il faut initialiser les données de displayMonthCalendar
             }
 
             $scope.UIdisplayMonthtoYear = function() {
@@ -340,7 +349,7 @@ angular.module('starter.controllers', [])
                     selectedMonth = 11;
                     selectedYear--;
                 } else {
-                    $scope.dislayMonth = selectedMonth--;
+                    $scope.displayMonth = selectedMonth--;
                 }
                 $scope.displayMonthCalendar();
             }
@@ -351,13 +360,14 @@ angular.module('starter.controllers', [])
                     selectedMonth = 0;
                     selectedYear++;
                 } else {
-                    $scope.dislayMonth = selectedMonth++;
+                    $scope.displayMonth = selectedMonth++;
                 }
                 $scope.displayMonthCalendar();
             }
 
             $scope.selectedWeekPrevClick = function() {
-                selectedDate = 1;
+
+
                 if(selectedWeek == 1) {
                     selectedWeek = 52;
                     selectedYear--;
@@ -368,7 +378,7 @@ angular.module('starter.controllers', [])
             }
 
             $scope.selectedWeekNextClick = function() {
-                selectedDate = 1;
+
                 if(selectedWeek == 52) {
                     selectedWeek = 1;
                     selectedYear++;
@@ -412,7 +422,7 @@ angular.module('starter.controllers', [])
             }
 
             $scope.selectedMonthClick = function(month) {
-                $scope.dislayMonth = month;
+                $scope.displayMonth = month;
                 selectedMonth = month;
                 $scope.displayMonthCalendar();
                 $scope.UICalendarDisplay.Week = false;
@@ -463,7 +473,7 @@ angular.module('starter.controllers', [])
                     startDay = new Date(selectedYear, selectedMonth, 1).getDay();
 
                 $scope.displayYear = selectedYear;
-                $scope.dislayMonth = calMonths[selectedMonth];
+                $scope.displayMonth = calMonths[selectedMonth];
                 $scope.shortMonth = calMonths[selectedMonth].slice(0,3);
 
                 $scope.displayDate = selectedDate;
@@ -498,8 +508,8 @@ angular.module('starter.controllers', [])
 
                 $scope.displayYear = selectedYear;
                 $scope.displayWeek = selectedWeek;
-
-
+                $scope.displayMonth = calMonths[selectedMonth];
+                $scope.displayDate = selectedDate;
 
                 $scope.weekDays = [];
                 $scope.weekDaysEvents = [ [],[],[],[],[],[],[] ];
@@ -518,7 +528,7 @@ angular.module('starter.controllers', [])
                   {
                     if($scope.trainingList[trainingIt].trainingDate == realDate )
                     {
-                      $scope.weekDaysEvents [dayIt][nextPos] = {"img" : $scope.trainingList[trainingIt].imgUrl ,"duration":$scope.trainingList[trainingIt].duration};
+                      $scope.weekDaysEvents [dayIt][nextPos] = {"img" : $scope.trainingList[trainingIt].imgUrl ,"duration":$scope.trainingList[trainingIt].duration,"date":fullDate.format('DD')};
                       nextPos++;
                     }
                   }
@@ -530,6 +540,15 @@ angular.module('starter.controllers', [])
                   */
                 }
 
+            }
+
+            $scope.changeTrainingDisplay = function() {
+              if ( $scope.UICalendarDisplay.Week ){
+                $scope.UIdisplayWeekToDate();
+              }
+              else {
+                $scope.UIdisplayDateToWeek();
+              }
             }
 
 
