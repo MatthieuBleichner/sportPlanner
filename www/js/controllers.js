@@ -374,6 +374,10 @@ angular.module('starter.controllers', [])
                 } else {
                     $scope.dislayWeek = selectedWeek--;
                 }
+                selectedDate = moment().week(selectedWeek).year(selectedYear).isoWeekday(1).date();
+                selectedMonth = moment().week(selectedWeek).year(selectedYear).isoWeekday(1).month();
+
+                $scope.displayCompleteDate();
                 $scope.displayWeekCalendar();
             }
 
@@ -385,6 +389,10 @@ angular.module('starter.controllers', [])
                 } else {
                     $scope.dislayWeek = selectedWeek++;
                 }
+
+                selectedDate = moment().week(selectedWeek).year(selectedYear).isoWeekday(1).date();
+                selectedMonth = moment().week(selectedWeek).year(selectedYear).isoWeekday(1).month();
+                $scope.displayCompleteDate();
                 $scope.displayWeekCalendar();
             }
 
@@ -434,6 +442,7 @@ angular.module('starter.controllers', [])
 
             $scope.selectedDateClick = function(date) {
                 $scope.displayDate = date.date;
+
                 selectedDate = date.date;
 
                 if(date.type == 'newMonth') {
@@ -448,6 +457,8 @@ angular.module('starter.controllers', [])
                     $scope.displayMonthCalendar();
                 }
                 $scope.displayCompleteDate();
+
+                $scope.fullDayEvents = date.event;
             }
 
             $scope.displayMonthCalendar = function() {
@@ -482,26 +493,55 @@ angular.module('starter.controllers', [])
                 var prevMonthLastDates = new Date(selectedYear, selectedMonth, 0).getDate();
 
                 for (i=0;i<6;i++) {
+
+
+
+
                      if (typeof $scope.datesDisp[0][6] === 'undefined') {
                        //premiere ligne du mois
                         for(j=0;j<7;j++) {
                           if(j < startDay) {
                             $scope.datesDisp[i][j] = {"type":"oldMonth","date":(prevMonthLastDates - startDay + 1)+j};
                           } else {
-                            $scope.datesDisp[i][j] = {"type":"currentMonth","date":countDatingStart++};
+                            $scope.getDayTraining( countDatingStart, function(data){
+                              $scope.datesDisp[i][j] = {"type":"currentMonth","date":countDatingStart++, "event":data};
+                            })
                           }
                         }
                      } else {
                        for(k=0;k<7;k++) {
                           if(countDatingStart <= endingDateLimit) {
-                            $scope.datesDisp[i][k] = {"type":"currentMonth","date":countDatingStart++};
+
+                            $scope.getDayTraining( countDatingStart, function(data){
+                              $scope.datesDisp[i][k] = {"type":"currentMonth","date":countDatingStart++, "event":data};
+                            })
                           } else {
-                            $scope.datesDisp[i][k] = {"type":"newMonth","date":nextMonthStartDates++};
+                              $scope.datesDisp[i][k] = {"type":"newMonth","date":nextMonthStartDates++};
                           }
                        }
                      }
 
                 }
+            }
+
+            $scope.getDayTraining = function(currentDay, callback) {
+              ///TODO: aouch les perfos. C'est debile de faire ca
+              todayDate = currentDay;
+              listOfTrainingForThisDay = [];
+              nextPos = 0;
+              currentDate = new Date(selectedYear, selectedMonth , todayDate);
+              currentDate.setHours(9);
+              currentDate.setMinutes(30);
+              currentDate.setSeconds(0);
+              for(trainingIt=0;trainingIt<$scope.trainingList.length;trainingIt++)
+              {
+                if($scope.trainingList[trainingIt].trainingDate == currentDate )
+                {
+                  listOfTrainingForThisDay [nextPos] = {"img" : $scope.trainingList[trainingIt].imgUrl ,"duration":$scope.trainingList[trainingIt].duration + " min","date":fullDate.format('DD') , "training":$scope.trainingList[trainingIt]};
+                  nextPos++;
+                }
+              }
+              callback(listOfTrainingForThisDay)
             }
 
             $scope.displayWeekCalendar = function() {
@@ -513,11 +553,15 @@ angular.module('starter.controllers', [])
 
                 $scope.weekDays = [];
                 $scope.weekDaysEvents = [ [],[],[],[],[],[],[] ];
+
+                dayOfWeek = moment().week(selectedWeek).year(selectedYear).isoWeekday(1);
+                dayOfWeek.startOf('isoweek');
                 for(dayIt=0;dayIt<7;dayIt++)
                 {
-                  fullDate = moment().day(dayIt).week(selectedWeek).year(selectedYear);
-                  date = fullDate.format('dd Do');
-                  $scope.weekDays[dayIt] = date;
+                  fullDate = dayOfWeek;
+                  dayString = fullDate.format('ddd');
+                  date = fullDate.format('Do');
+                  $scope.weekDays[dayIt] = {date,dayString};
                   realDate = fullDate.toDate();
                   realDate.setHours(9);
                   realDate.setMinutes(30);
@@ -528,10 +572,17 @@ angular.module('starter.controllers', [])
                   {
                     if($scope.trainingList[trainingIt].trainingDate == realDate )
                     {
-                      $scope.weekDaysEvents [dayIt][nextPos] = {"img" : $scope.trainingList[trainingIt].imgUrl ,"duration":$scope.trainingList[trainingIt].duration,"date":fullDate.format('DD')};
+                      $scope.weekDaysEvents [dayIt][nextPos] = {"img" : $scope.trainingList[trainingIt].imgUrl ,"duration":$scope.trainingList[trainingIt].duration + " min","date":fullDate.format('DD') , "training":$scope.trainingList[trainingIt]};
                       nextPos++;
                     }
+
                   }
+                  if( nextPos === 0 ){
+                    $scope.weekDaysEvents [dayIt][nextPos] = {"img" : "" ,"duration":"","date":fullDate.format('DD'),"id":""};
+                    nextPos++;
+
+                  }
+                  fullDate = dayOfWeek.add('d', 1);
 
                   /*
                    $scope.weekDaysEvents [dayIt][1] = {"type":"currentMonth","date":'a'};
