@@ -36,7 +36,7 @@
             </div>
 
             <div class = "col txtCenter WeekContentBorder trainingContent" ng-repeat = "colVal in weekDaysEvents[$index]"  ng-click="selectedDateClick(colVal)"  style=" background-color: #f4f4f4">
-                <div  ng-click="openModalTrainingWithData(colVal.training)">
+                <div  ng-click="gotoEditTraining(colVal.training.id)">
                   <img src={{colVal.img}} class="sportpicsize imageTraining" ng-if= "colVal.img">
                   <div class="textTraining">  {{colVal.duration}} </div>
                 </div>
@@ -44,10 +44,10 @@
           </div>
 
         </div>
-      	<div ng-show="UICalendarDisplay.Date">
+      	<div ng-show="UICalendarDisplay.Date" class="swipe" on-swipe-left="selectedMonthNextClick()" on-swipe-right="selectedMonthPrevClick()">
           <div>
               <div class="row fullDayEvents" >
-                <div class="col dayEvent" ng-repeat = "event in fullDayEvents" ng-click="openModalTrainingWithData(event.training)">
+                <div class="col dayEvent" ng-repeat = "event in fullDayEvents" ng-click="gotoEditTraining(event.training.id)">
                   <img style="position:relative; top:-10px" src={{event.img}} class="sportpicsize" ng-if= "event.img">
                   <div  style="position:relative; top:-20px">  {{event.duration}} </div>
                 </div>
@@ -97,7 +97,7 @@
   </ion-content>
 
   <footer>
-    <button ion-fixed class="button button-float" ng-click="openModalTrainingWithData()">
+    <button ion-fixed class="button button-float" ng-click="gotoEditTraining()">
       <i class="icon ion-plus"></i>
     </button>
   </footer>

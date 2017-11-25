@@ -76,9 +76,9 @@ angular.module('starter.services', ['ngCordova'])
           })
         })
       },
-      getSportName: function(id, callback){
+      getSportById: function(id, callback){
         $ionicPlatform.ready(function () {
-          $cordovaSQLite.execute(db, 'SELECT name FROM T_SPORT where id = ?', [id]).then(function (results) {
+          $cordovaSQLite.execute(db, 'SELECT * FROM T_SPORT where id = ?', [id]).then(function (results) {
             var res = results.rows.item(0);
             callback(res);
           })

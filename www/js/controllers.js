@@ -206,11 +206,17 @@ angular.module('starter.controllers', [])
     })
 
     $scope.openTrainingList = function(){
-      $state.go('listCompetition')
+
+      $state.go('listCompetition');
     }
 
     $scope.gotoEdit = function(idNote){
       $state.go('form', {id: idNote})
+    }
+
+    $scope.gotoEditTraining = function(idTraining){
+      $scope.sportType = 'running';
+      $state.go('trainingForm', {id: idTraining})
     }
 
 
@@ -227,13 +233,13 @@ angular.module('starter.controllers', [])
       console.info('openModalTrainingWithData');
       $scope.loginModal.show();
 
-      $scope.sportType = 'triathlon';
+      $scope.sportType = $scope.sportList[0];
       if(training){
           $scope.trainingForm = training;
           $scope.trainingForm.date = new Date(training.trainingDate);
 
           CompetitionDataService.getSportName($scope.trainingForm.sport_id, function(sportName){
-            $scope.sportType = sportName.name
+            $scope.sportType = sportName
           })
       } else {
         $scope.trainingForm = {};
@@ -242,6 +248,8 @@ angular.module('starter.controllers', [])
         $scope.trainingForm.date.setMinutes(30);
         $scope.trainingForm.date.setSeconds(0);
         $scope.trainingForm.content="";
+        $scope.trainingForm.distance=10;
+        $scope.trainingForm.duration=60;
       }
 
     };
@@ -658,19 +666,45 @@ angular.module('starter.controllers', [])
 
   .controller('TrainingFormCtrl', function ($scope, $stateParams, $ionicPopup, $state, CompetitionDataService) {
     $scope.$on('$ionicView.enter', function(e) {
-      initForm()
+      initForm();
     })
 
     function initForm(){
+
+      CompetitionDataService.getAllSports(function(dataSports){
+        $scope.sportList = dataSports;
+        $scope.sportType = dataSports[0];
+      })
+
+
       if($stateParams.id){
         CompetitionDataService.getTrainingById($stateParams.id, function(item){
-          $scope.trainingForm = item
+          $scope.trainingForm = item;
+          $scope.sportType = $scope.sportList[item.sport_id-1];
+          $scope.trainingForm.date = new Date(item.trainingDate); //TODO: reprendre la gestion des dates
         })
+
       } else {
         $scope.trainingForm = {};
         $scope.trainingForm.date = new Date();
+        $scope.trainingForm.date.setHours(9);
+        $scope.trainingForm.date.setMinutes(30);
+        $scope.trainingForm.date.setSeconds(0);
+        $scope.trainingForm.content="";
+        $scope.trainingForm.distance=10;
+        $scope.trainingForm.duration=60;
       }
     }
+
+    $scope.sportChange = function(item) {
+      console.log("Sport is :", item.id);
+      $scope.trainingForm.sport_id = item.id;
+      $scope.trainingForm.title = item.name;
+      CompetitionDataService.getSportImgUrl(item.id, function(imgUrl){
+        $scope.trainingForm.imgUrl  = imgUrl.logoURL
+      })
+    }
+
     function onSaveSuccess(){
       $state.go('list')
     }
@@ -703,6 +737,7 @@ angular.module('starter.controllers', [])
   .controller('trainingModalFormCtrl', function ($scope, $stateParams, $ionicPopup, $state, CompetitionDataService, $ionicTabsDelegate, $timeout) {
     $scope.$on('$ionicView.enter', function(e) {
       initForm()
+
     })
 
     function initForm(){
@@ -719,6 +754,7 @@ angular.module('starter.controllers', [])
     $scope.sportChange = function(item) {
       console.log("Sport is :", item.id);
       $scope.trainingForm.sport_id = item.id;
+      $scope.trainingForm.title = item.name;
       CompetitionDataService.getSportImgUrl(item.id, function(imgUrl){
         $scope.trainingForm.imgUrl  = imgUrl.logoURL
       })

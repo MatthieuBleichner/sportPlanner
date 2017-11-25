@@ -6,73 +6,71 @@
   </header>
 
 
-  <ion-tabs class="tabs-icon-top tabs-color-active-positive" >
+    <!-- All Tab -->
+      <ion-nav-view name="tab-competitionAll" class="has-header">
 
 
-    <!-- Account Tab -->
-    <ion-tab title="Sport" icon-off="ion-ios-body-outline" icon-on="ion-ios-body">
-      <ion-nav-view name="tab-trainingSport">
-        <ion-content  overflow-scroll="false" has-header="true">
+        <div class="list">
+          <label class = "item item-input item-select">
+             <div class = "input-label">
+                Sport
+             </div>
+             <select ng-model="sportType" ng-options="sport as sport.name for sport in sportList" ng-change="sportChange(sportType)">
+             </select>
+          </label>
+          <div class="item item-divider">
+            Duration {{trainingForm.duration}} minutes
+          </div>
+          <div class="item range scroll">
+              <i class="icon ion-ios7-stopwatch-outline"></i>
+              <input type="range"
+                     name="minutes"
+                     min="0"
+                     max="120"
+                     step="10"
+                     ng-model="trainingForm.duration"
+                     value="{{trainingForm.duration}}"
+                     >
+              <i class="icon ion-ios7-stopwatch"></i>
+          </div>
+          <div class="item item-divider">
+            Distance {{trainingForm.distance}} km
+          </div>
+          <div class="item range scroll">
 
+            <i class="icon ion-ios7-stopwatch-outline"></i>
+            <input type="range"
+                   name="minutes"
+                   min="0"
+                   max="60"
+                   step="15"
+                   ng-model="trainingForm.distance"
+                   value="{{trainingForm.distance}}"
+                   pin="true"
+                   >
 
-          <ion-radio  ng-repeat="sport in sportList"
-                      ng-value="sport.name"
-                      ng-model="sportType"
-                      ng-change="sportChange(sport)"
-                      name="sport">
-            {{ sport.name }}
-          </ion-radio>
-        </ion-content>
-      </ion-nav-view>
-    </ion-tab>
-
-    <!-- Dashboard Tab -->
-    <ion-tab title="Duration" icon-off="ion-ios-stopwatch-outline" icon-on="ion-ios-stopwatch">
-      <ion-nav-view name="tab-trainingDuration">
-        <ion-content  class="navElem">
-          <span>
-              <input type="tel" placeholder="min" ng-model="trainingForm.duration"> min
-          </span>
-
-        </ion-content>
-      </ion-nav-view>
-    </ion-tab>
-
-    <!-- Chats Tab -->
-    <ion-tab title="Distance" icon-off="ion-android-navigate" icon-on="ion-android-navigate">
-      <ion-nav-view name="tab-trainingDistance">
-        <ion-content   class="navElem"> OK
-          <span>
-              <input type="tel" placeholder="KM" ng-model="trainingForm.distance"> KM
-          </span>
-        </ion-content>
-      </ion-nav-view>
-    </ion-tab>
-
-
-    <!-- Name Tab -->
-    <ion-tab title="Name" icon-off="ion-ios-pricetags-outline" icon-on="ion-ios-pricetags">
-      <ion-nav-view name="tab-trainingName">
-        <ion-content class="navElem">
-      		    <input type="text" ng-model="trainingForm.title" style="text-align: center" class="col col-center" autofocus  onfocus="this.value = this.value;" placeholder="Enter training name">
-      	</ion-content>
-      </ion-nav-view>
-    </ion-tab>
-
-    <!-- Date Tab -->
-    <ion-tab title="Date" icon-off="ion-ios-calendar-outline" icon-on="ion-ios-calendar">
-      <ion-nav-view name="tab-competitionDate">
-        <ion-content  class="navElem">
-          <label class="item item-input">
-            <span>
-      		      <input type="date" ng-model="trainingForm.date">
+            <i class="icon ion-ios7-stopwatch"></i>
+          </div>
+          <div class="item item-divider">
+            Date
+          </div>
+          <label class="item item-input" >
+            <span style="text-align:center;">
+                <input type="date" ng-model="trainingForm.date"  >
             </span>
           </label>
-      	</ion-content>
+          <label class="item item-divider">
+            name
+          </label>
+          <label class="item item-input" style="text-align:center;">
+            <span style="text-align:center;">
+              <input type="text" ng-model="trainingForm.title" style="text-align: center" class="col col-center" autofocus  onfocus="this.value = this.value;" placeholder="Enter training name">
+            </span>
+          </label>
+        </div>
+
+
       </ion-nav-view>
-    </ion-tab>
 
-
-  </ion-tabs>
 
 </ion-modal-view>
