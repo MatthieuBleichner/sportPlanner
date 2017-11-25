@@ -45,7 +45,7 @@
       <div ng-if="$index<3" class="card" ng-repeat="training in trainingList" >
         <!--div class="item item-text-wrap" ng-click="openModalTrainingWithData(training.id )"-->
 
-          <div class="item item-text-wrap" ng-click="openModalTrainingWithData(training.id )">
+          <div class="item item-text-wrap" ng-click="gotoEditTraining(training.id )">
             <ion-avatar>
               <img src={{training.imgUrl}} class="sportpicsize"  >
             </ion-avatar>
@@ -55,7 +55,7 @@
             </div>
         </div>
       </div>
-      <a ng-if="trainingList.length<=2" class="button button-block customBtn" ng-click="openModalTrainingWithData(training.id )">
+      <a ng-if="trainingList.length<=2" class="button button-block customBtn" ng-click="gotoEditTraining(training.id )">
         <i class="icon ion-plus-circled"></i> Add training
       </a>
       <a ng-if="trainingList.length>2" href="#/listTraining" class="button button-block customBtn">
