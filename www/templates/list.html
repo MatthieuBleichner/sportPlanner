@@ -42,19 +42,20 @@
         <i class="icon ion-android-stopwatch"></i>
         Training
       </div>
-      <div ng-if="$index<3" class="card" ng-repeat="training in trainingList" >
-        <!--div class="item item-text-wrap" ng-click="openModalTrainingWithData(training.id )"-->
+      <ion-list  no-lines>
+        <ion-item ng-if="$index<3" ng-repeat="training in trainingList">
+          <ion-avatar>
+            <img src={{training.imgUrl}} class="sportpicsize"  >
+          </ion-avatar>
+          <div class="item-position" ng-click="gotoEditTraining(training.id )">
+            <h2>{{training.title}}</h2>
+            <p>{{training.displayDate | date:'dd MMMM yyyy'}}</p>
+          </div>
+          <div class="button deleteButton" ng-click="confirmDelete(item.id)"> </div>
+        </ion-item>
+      </ion-list>
 
-          <div class="item item-text-wrap" ng-click="gotoEditTraining(training.id )">
-            <ion-avatar>
-              <img src={{training.imgUrl}} class="sportpicsize"  >
-            </ion-avatar>
-            <div  class="item-position">
-              <h2 >{{training.title}}</h2>
-              <p>{{training.displayDate | date:'dd/MM'}}</p>
-            </div>
-        </div>
-      </div>
+
       <a ng-if="trainingList.length<=2" class="button button-block customBtn" ng-click="gotoEditTraining(training.id )">
         <i class="icon ion-plus-circled"></i> Add training
       </a>
