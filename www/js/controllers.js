@@ -619,9 +619,20 @@ angular.module('starter.controllers', [])
     })
 
     function initForm(){
+
+
+      CompetitionDataService.getAllSports(function(dataSports){
+        $scope.sportList = dataSports;
+        $scope.sportType = dataSports[0];
+        $scope.competitionForm.title = dataSports[0].name;
+      })
+
+
       if($stateParams.id){
         CompetitionDataService.getById($stateParams.id, function(item){
-          $scope.competitionForm = item
+          $scope.competitionForm = item;
+          $scope.sportType = $scope.sportList[item.sport_id-1];
+          $scope.competitionForm.myDate = new Date(item.activityDate);
         })
       } else {
         $scope.competitionForm = {};
@@ -629,9 +640,20 @@ angular.module('starter.controllers', [])
         $scope.competitionForm.myDate.setHours(9);
         $scope.competitionForm.myDate.setMinutes(30);
         $scope.competitionForm.myDate.setSeconds(0);
-        $scope.competitionForm.sportType = 1;
+        $scope.competitionForm.myDate.setMilliseconds(0);
       }
     }
+
+
+    $scope.sportChange = function(item) {
+      console.log("Sport is :", item.id);
+      $scope.competitionForm.sport_id = item.id;
+      $scope.competitionForm.title = item.name;
+      CompetitionDataService.getSportImgUrl(item.id, function(imgUrl){
+        $scope.competitionForm.imgUrl  = imgUrl.logoURL
+      })
+    }
+
     function onSaveSuccess(){
       $state.go('list')
     }
@@ -674,6 +696,10 @@ angular.module('starter.controllers', [])
       CompetitionDataService.getAllSports(function(dataSports){
         $scope.sportList = dataSports;
         $scope.sportType = dataSports[0];
+        $scope.trainingForm.title = dataSports[0].name;
+        CompetitionDataService.getSportImgUrl(dataSports[0].id, function(imgUrl){
+          $scope.trainingForm.imgUrl  = imgUrl.logoURL
+        })
       })
 
 

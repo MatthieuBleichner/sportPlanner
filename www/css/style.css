@@ -50,6 +50,7 @@
 }
 
 .button.customBtnInList{
+    margin: 0px;
     background:#7caf37;
     color:white !important;
 }
@@ -119,8 +120,19 @@
   right  : 30%;
   width  : 45% !important;
   height : 100% !important;
+
 }
 
+.bottomBorder{
+  border-top: none;
+  border-bottom:  medium dashed blue;
+
+}
+.bottomBorder:last-child{
+  border-top: medium dashed red;
+  border-bottom:  10px dashed red;
+
+}
 .sportpicsize  {
     width: 100% !important;
     height : 100% !important;

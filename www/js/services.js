@@ -56,14 +56,14 @@ angular.module('starter.services', ['ngCordova'])
 
       //Competitions
       createCompetition: function (competition) {
-        return $cordovaSQLite.execute(db, 'INSERT INTO T_COMPETITION (title, content, activityDate, sport_id, imgUrl) VALUES(?, ?, ?, ?, ?)', [competition.title, competition.content, competition.date.getTime(), competition.sport_id, competition.imgUrl ])
+        return $cordovaSQLite.execute(db, 'INSERT INTO T_COMPETITION (title, content, activityDate, sport_id, imgUrl) VALUES(?, ?, ?, ?, ?)', [competition.title, competition.content, competition.myDate.toISOString(), competition.sport_id, competition.imgUrl ])
         .then(function(res){
         }, onErrorQuery)
       },
 
       updateCompetition: function(competition){
 
-        return $cordovaSQLite.execute(db, 'UPDATE T_COMPETITION set title = ?, content = ?, activityDate = ?, sport_id = ?, imgUrl = ? where id = ?', [competition.title, competition.content, competition.date.getTime(), competition.sport_id, competition.imgUrl, competition.id ])
+        return $cordovaSQLite.execute(db, 'UPDATE T_COMPETITION set title = ?, content = ?, activityDate = ?, sport_id = ?, imgUrl = ? where id = ?', [competition.title, competition.content, competition.myDate.toISOString(), competition.sport_id, competition.imgUrl, competition.id ])
         .then(function(res){
         }, onErrorQuery)
       },

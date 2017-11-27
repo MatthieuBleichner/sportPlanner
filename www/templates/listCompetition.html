@@ -17,14 +17,14 @@
           <h2>{{item.title}}</h2>
           <blockquote ng-if="item.content!='undefined'">{{item.content}}</blockquote>
           <div class="button competionButton" ng-click="confirmDelete(item.id)"> <i class="icon ion-ios-trash   custom-icon"></i></div>
-          <div class="button competionButton" ng-click="openModalCompetitionWithData(item)"> <i class="icon ion-compose   custom-icon"></i></div>
+          <div class="button competionButton" ng-click="gotoEdit(item)"> <i class="icon ion-compose   custom-icon"></i></div>
         </div>
       </div>
     </div>
   </ion-content>
 
 <footer>
-  <button ion-fixed class="button button-float" ng-click="openModalCompetitionWithData(item)">
+  <button ion-fixed class="button button-float" ng-click="gotoEdit(item)">
     <i class="icon ion-plus"></i>
   </button>
 </footer>

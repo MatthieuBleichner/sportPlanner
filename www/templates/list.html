@@ -18,7 +18,7 @@
             <ion-avatar>
               <img src={{item.imgUrl}} class="sportpicsize"  >
             </ion-avatar>
-            <div class="item-position" ng-click="openModalCompetitionWithData(item)">
+            <div class="item-position" ng-click="gotoEdit(item.id)">
               <h2>{{item.title}}</h2>
               <p>{{item.activityDate | date:'dd MMMM yyyy'}}</p>
             </div>
@@ -26,7 +26,7 @@
           </ion-item>
         </ion-list>
         <ion-item>
-          <a ng-if="itemsList.length<=2" ng-click="openModalCompetitionWithData(item)" class="button button-block customBtnInList">
+          <a ng-if="itemsList.length<=2" ng-click="gotoEdit(item.id)" class="button button-block customBtnInList">
             <i class="icon ion-plus-circled"></i> Add event
           </a>
           <a ng-if="itemsList.length>2" href="#/listCompetition" class="button button-block customBtnInList">
@@ -42,7 +42,7 @@
         <i class="icon ion-android-stopwatch"></i>
         Training
       </div>
-      <ion-list  no-lines>
+      <ion-list>
         <ion-item ng-if="$index<3" ng-repeat="training in trainingList">
           <ion-avatar>
             <img src={{training.imgUrl}} class="sportpicsize"  >
@@ -51,17 +51,17 @@
             <h2>{{training.title}}</h2>
             <p>{{training.displayDate | date:'dd MMMM yyyy'}}</p>
           </div>
-          <div class="button deleteButton" ng-click="confirmDelete(item.id)"> </div>
         </ion-item>
       </ion-list>
 
-
-      <a ng-if="trainingList.length<=2" class="button button-block customBtn" ng-click="gotoEditTraining(training.id )">
-        <i class="icon ion-plus-circled"></i> Add training
-      </a>
-      <a ng-if="trainingList.length>2" href="#/listTraining" class="button button-block customBtn">
-        See more  <i class="icon ion-chevron-right"></i>
-      </a>
+      <ion-item>
+        <a ng-if="trainingList.length<=2" class="button button-block customBtnInList" ng-click="gotoEditTraining(training.id )">
+          <i class="icon ion-plus-circled"></i> Add training
+        </a>
+        <a ng-if="trainingList.length>2" href="#/listTraining" class="button button-block customBtnInList">
+          See more  <i class="icon ion-chevron-right"></i>
+        </a>
+      </ion-item>
     </div>
 
   </ion-content>
