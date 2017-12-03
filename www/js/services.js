@@ -125,7 +125,7 @@ angular.module('starter.services', ['ngCordova'])
       },
       getFutureCompetitions: function(callback){
         $ionicPlatform.ready(function () {
-          $cordovaSQLite.execute(db, 'SELECT * FROM T_COMPETITION WHERE activityDate > (julianday(datetime("now"))-julianday(datetime("1970-01-01"))*1000*60) ORDER BY activityDate ').then(function (results) {
+          $cordovaSQLite.execute(db, 'SELECT * FROM T_COMPETITION WHERE DATE(activityDate) > DATE("now") ORDER BY DATE(activityDate) ').then(function (results) {
             var data = []
 
             for (i = 0, max = results.rows.length; i < max; i++) {
@@ -177,7 +177,7 @@ angular.module('starter.services', ['ngCordova'])
       getNext3Trainings: function(callback){
         $ionicPlatform.ready(function () {
           //< '2013-01-01 00:00:00'
-          $cordovaSQLite.execute(db, 'SELECT * FROM T_TRAINING WHERE DATE(trainingDate) ORDER BY DATE(trainingDate) asc LIMIT 3').then(function (results) {
+          $cordovaSQLite.execute(db, 'SELECT * FROM T_TRAINING WHERE DATE(trainingDate)>=DATE("now") ORDER BY DATE(trainingDate) asc LIMIT 3').then(function (results) {
             var trainingData = []
 
             for (i = 0, max = results.rows.length; i < max; i++) {
