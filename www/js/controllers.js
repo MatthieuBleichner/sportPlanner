@@ -3,7 +3,7 @@ angular.module('starter.controllers', [])
 
   .controller('ListCtrl', function ($scope,$ionicPlatform, $state, CompetitionDataService, $ionicModal, $ionicPopup) {
     $scope.$on('$ionicView.enter', function(e) {
-        CompetitionDataService.getAll(function(data){
+        CompetitionDataService.getFutureCompetitions(function(data){
           $scope.itemsList = data
         })
         CompetitionDataService.getNext3Trainings(function(dataTrainings){
