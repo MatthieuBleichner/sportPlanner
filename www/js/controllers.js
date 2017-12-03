@@ -6,7 +6,7 @@ angular.module('starter.controllers', [])
         CompetitionDataService.getAll(function(data){
           $scope.itemsList = data
         })
-        CompetitionDataService.getAllTrainings(function(dataTrainings){
+        CompetitionDataService.getNext3Trainings(function(dataTrainings){
           $scope.trainingList = dataTrainings
           for(it=0; it<$scope.trainingList.length;it++)
           {
@@ -50,6 +50,7 @@ angular.module('starter.controllers', [])
         $scope.trainingForm.date.setHours(9);
         $scope.trainingForm.date.setMinutes(30);
         $scope.trainingForm.date.setSeconds(0);
+        currentDate.setMilliseconds(0);
         $scope.trainingForm.content="";
       }
     };
@@ -151,6 +152,7 @@ angular.module('starter.controllers', [])
         $scope.competitionForm.date.setHours(9);
         $scope.competitionForm.date.setMinutes(30);
         $scope.competitionForm.date.setSeconds(0);
+        currentDate.setMilliseconds(0);
         $scope.competitionForm.content="";
       }
 
@@ -247,6 +249,7 @@ angular.module('starter.controllers', [])
         $scope.trainingForm.date.setHours(9);
         $scope.trainingForm.date.setMinutes(30);
         $scope.trainingForm.date.setSeconds(0);
+        $scope.trainingForm.date.setMilliseconds(0);
         $scope.trainingForm.content="";
         $scope.trainingForm.distance=10;
         $scope.trainingForm.duration=60;
@@ -541,9 +544,10 @@ angular.module('starter.controllers', [])
               currentDate.setHours(9);
               currentDate.setMinutes(30);
               currentDate.setSeconds(0);
+              currentDate.setMilliseconds(0);
               for(trainingIt=0;trainingIt<$scope.trainingList.length;trainingIt++)
               {
-                if($scope.trainingList[trainingIt].trainingDate == currentDate )
+                if(new Date($scope.trainingList[trainingIt].trainingDate).getTime() == currentDate.getTime() )
                 {
                   listOfTrainingForThisDay [nextPos] = {"img" : $scope.trainingList[trainingIt].imgUrl ,"duration":$scope.trainingList[trainingIt].duration + " min","date":fullDate.format('DD') , "training":$scope.trainingList[trainingIt]};
                   nextPos++;
@@ -574,11 +578,13 @@ angular.module('starter.controllers', [])
                   realDate.setHours(9);
                   realDate.setMinutes(30);
                   realDate.setSeconds(0);
+                  realDate.setMilliseconds(0);
                   dayEvents = [];
                   nextPos = 0;
                   for(trainingIt=0;trainingIt<$scope.trainingList.length;trainingIt++)
                   {
-                    if($scope.trainingList[trainingIt].trainingDate == realDate )
+                    currentTrainingDate = new Date($scope.trainingList[trainingIt].trainingDate);
+                    if( currentTrainingDate.getTime() == realDate.getTime() )
                     {
                       $scope.weekDaysEvents [dayIt][nextPos] = {"img" : $scope.trainingList[trainingIt].imgUrl ,"duration":$scope.trainingList[trainingIt].duration + " min","date":fullDate.format('DD') , "training":$scope.trainingList[trainingIt]};
                       nextPos++;
@@ -624,7 +630,14 @@ angular.module('starter.controllers', [])
       CompetitionDataService.getAllSports(function(dataSports){
         $scope.sportList = dataSports;
         $scope.sportType = dataSports[0];
-        $scope.competitionForm.title = dataSports[0].name;
+        if ( $scope.competitionForm ){
+          $scope.competitionForm.title = dataSports[0].name;
+        }
+
+        CompetitionDataService.getSportImgUrl(dataSports[0].id, function(imgUrl){
+          $scope.competitionForm.imgUrl  = imgUrl.logoURL
+        })
+
       })
 
 
@@ -641,6 +654,7 @@ angular.module('starter.controllers', [])
         $scope.competitionForm.myDate.setMinutes(30);
         $scope.competitionForm.myDate.setSeconds(0);
         $scope.competitionForm.myDate.setMilliseconds(0);
+        $scope.competitionForm.sport_id = 1;
       }
     }
 
@@ -696,7 +710,9 @@ angular.module('starter.controllers', [])
       CompetitionDataService.getAllSports(function(dataSports){
         $scope.sportList = dataSports;
         $scope.sportType = dataSports[0];
-        $scope.trainingForm.title = dataSports[0].name;
+        if( $scope.trainingForm ){
+          $scope.trainingForm.title = dataSports[0].name;
+        }
         CompetitionDataService.getSportImgUrl(dataSports[0].id, function(imgUrl){
           $scope.trainingForm.imgUrl  = imgUrl.logoURL
         })
@@ -716,9 +732,12 @@ angular.module('starter.controllers', [])
         $scope.trainingForm.date.setHours(9);
         $scope.trainingForm.date.setMinutes(30);
         $scope.trainingForm.date.setSeconds(0);
+        $scope.trainingForm.date.setMilliseconds(0);
         $scope.trainingForm.content="";
         $scope.trainingForm.distance=10;
         $scope.trainingForm.duration=60;
+        $scope.trainingForm.title = "running";
+        $scope.trainingForm.sport_id = 1 ;
       }
     }
 

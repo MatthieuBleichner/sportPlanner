@@ -1,6 +1,6 @@
 angular.module('starter.services', ['ngCordova'])
   .factory('CompetitionDataService', function ($cordovaSQLite, $ionicPlatform) {
-    var db, dbName = "competition106.db"
+    var db, dbName = "competition107.db"
 
     function useWebSql() {
       db = window.openDatabase(dbName, "1.0", "Note database", 200000)
@@ -155,7 +155,7 @@ angular.module('starter.services', ['ngCordova'])
       //TRainings
       createTraining: function (training) {
       console.info('create training')
-        return $cordovaSQLite.execute(db, 'INSERT INTO T_TRAINING (sport_id, duration, distance, trainingDate, imgUrl, title) VALUES( ? , ? , ? , ? , ? , ?)', [training.sport_id, training.duration, training.distance,training.date,training.imgUrl, training.title]).then(function(res){
+        return $cordovaSQLite.execute(db, 'INSERT INTO T_TRAINING (sport_id, duration, distance, trainingDate, imgUrl, title) VALUES( ? , ? , ? , ? , ? , ?)', [training.sport_id, training.duration, training.distance,training.date.toISOString(),training.imgUrl, training.title]).then(function(res){
         }, onErrorQuery)
       },
       updateTraining: function(training){
@@ -174,6 +174,21 @@ angular.module('starter.services', ['ngCordova'])
           }, onErrorQuery)
         })
       },
+      getNext3Trainings: function(callback){
+        $ionicPlatform.ready(function () {
+          //< '2013-01-01 00:00:00'
+          $cordovaSQLite.execute(db, 'SELECT * FROM T_TRAINING WHERE DATE(trainingDate) ORDER BY DATE(trainingDate) asc LIMIT 3').then(function (results) {
+            var trainingData = []
+
+            for (i = 0, max = results.rows.length; i < max; i++) {
+              trainingData.push(results.rows.item(i))
+            }
+
+            callback(trainingData)
+          }, onErrorQuery)
+        })
+      },
+
       getTrainingDate: function(id){
           return $cordovaSQLite.execute(db, 'SELECT activityDate FROM T_TRAINING where id = ?', [id])
       },
