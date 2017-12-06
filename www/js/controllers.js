@@ -194,6 +194,27 @@ angular.module('starter.controllers', [])
       };
   })
 
+  .filter('minutes2Hours', function() {
+      return function(input,format) {
+        if( input=="" )
+          return input;
+        if( input/60 >= 1){
+          var minutes = input%60;
+          var hours = (input - minutes) / 60;
+          if ( minutes != 0){
+            return hours + "h" + minutes
+          }
+          else{
+            return hours + "h";
+          }
+        }
+        else{
+          return input + format;
+        }
+
+      };
+  })
+
   .controller('listTrainingCtrl', function ($scope,$ionicPlatform, $state, CompetitionDataService, $ionicModal, $ionicPopup) {
     $scope.$on('$ionicView.enter', function(e) {
         CompetitionDataService.getAllTrainings(function(data){
@@ -549,7 +570,7 @@ angular.module('starter.controllers', [])
               {
                 if(new Date($scope.trainingList[trainingIt].trainingDate).getTime() == currentDate.getTime() )
                 {
-                  listOfTrainingForThisDay [nextPos] = {"img" : $scope.trainingList[trainingIt].imgUrl ,"duration":$scope.trainingList[trainingIt].duration + " min","date":fullDate.format('DD') , "training":$scope.trainingList[trainingIt]};
+                  listOfTrainingForThisDay [nextPos] = {"img" : $scope.trainingList[trainingIt].imgUrl ,"duration":$scope.trainingList[trainingIt].duration ,"date":fullDate.format('DD') , "training":$scope.trainingList[trainingIt]};
                   nextPos++;
                 }
               }
@@ -586,7 +607,7 @@ angular.module('starter.controllers', [])
                     currentTrainingDate = new Date($scope.trainingList[trainingIt].trainingDate);
                     if( currentTrainingDate.getTime() == realDate.getTime() )
                     {
-                      $scope.weekDaysEvents [dayIt][nextPos] = {"img" : $scope.trainingList[trainingIt].imgUrl ,"duration":$scope.trainingList[trainingIt].duration + " min","date":fullDate.format('DD') , "training":$scope.trainingList[trainingIt]};
+                      $scope.weekDaysEvents [dayIt][nextPos] = {"img" : $scope.trainingList[trainingIt].imgUrl ,"duration":$scope.trainingList[trainingIt].duration,"date":fullDate.format('DD') , "training":$scope.trainingList[trainingIt]};
                       nextPos++;
                     }
 

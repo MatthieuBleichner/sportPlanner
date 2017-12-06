@@ -13,7 +13,7 @@
                </select>
             </label>
             <div class="item item-divider">
-              Duration {{trainingForm.duration}} minutes
+              Duration {{trainingForm.duration | minutes2Hours:' min'}}
             </div>
             <div class="item range scroll" ng-class="{'disableInput':(trainingForm.disableDuration == true)}" >
                 0
@@ -25,7 +25,7 @@
                        ng-model="trainingForm.duration"
                        value="{{trainingForm.duration}}"
                        >
-                {{trainingForm.maxTime}}
+                {{trainingForm.maxTime | minutes2Hours:''}}
             </div>
             <div class="item item-divider">
               Distance {{trainingForm.distance}} km
@@ -40,7 +40,7 @@
                      ng-model="trainingForm.distance"
                      value="{{trainingForm.distance}}"
                      >
-              {{trainingForm.maxDistance}}
+              {{trainingForm.maxDistance}}km
             </div>
             <div class="item item-divider">
               Date
