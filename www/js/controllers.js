@@ -712,10 +712,17 @@ angular.module('starter.controllers', [])
         $scope.sportType = dataSports[0];
         if( $scope.trainingForm ){
           $scope.trainingForm.title = dataSports[0].name;
+          $scope.trainingForm.maxDistance   = dataSports[0].maxDistance;
+          $scope.trainingForm.stepDistance  = dataSports[0].stepDistance;
+          $scope.trainingForm.maxTime       = dataSports[0].maxTime;
+          $scope.trainingForm.stepTime      = dataSports[0].stepTime;
+          $scope.trainingForm.distance      = $scope.trainingForm.maxDistance/2 ;
+          $scope.trainingForm.duration      = $scope.trainingForm.maxTime/2;
         }
         CompetitionDataService.getSportImgUrl(dataSports[0].id, function(imgUrl){
           $scope.trainingForm.imgUrl  = imgUrl.logoURL
         })
+
       })
 
 
@@ -724,6 +731,27 @@ angular.module('starter.controllers', [])
           $scope.trainingForm = item;
           $scope.sportType = $scope.sportList[item.sport_id-1];
           $scope.trainingForm.date = new Date(item.trainingDate); //TODO: reprendre la gestion des dates
+
+          if( $scope.sportList[item.sport_id-1].isTimeAvailable == "true" ){
+            $scope.trainingForm.disableDuration = false;
+          }
+          else {
+            $scope.trainingForm.disableDuration = true;
+          }
+
+          if( $scope.sportList[item.sport_id-1].isDistanceAvailable == "true" ){
+            $scope.trainingForm.disableDistance= false;
+          }
+          else {
+            $scope.trainingForm.disableDistance = true;
+          }
+
+          $scope.trainingForm.maxDistance   = $scope.sportList[item.sport_id-1].maxDistance;
+          $scope.trainingForm.stepDistance  = $scope.sportList[item.sport_id-1].stepDistance;
+          $scope.trainingForm.maxTime       = $scope.sportList[item.sport_id-1].maxTime;
+          $scope.trainingForm.stepTime      = $scope.sportList[item.sport_id-1].stepTime;
+          $scope.trainingForm.distance      = $scope.trainingForm.maxDistance/2 ;
+          $scope.trainingForm.duration      = $scope.trainingForm.maxTime/2;
         })
 
       } else {
@@ -738,6 +766,12 @@ angular.module('starter.controllers', [])
         $scope.trainingForm.duration=60;
         $scope.trainingForm.title = "running";
         $scope.trainingForm.sport_id = 1 ;
+        $scope.trainingForm.disableDuration = false;
+        $scope.trainingForm.disableDistance= false;
+        $scope.trainingForm.maxDistance   = 60;
+        $scope.trainingForm.stepDistance  = 1;
+        $scope.trainingForm.maxTime       = 120;
+        $scope.trainingForm.stepTime      = 10;
       }
     }
 
@@ -748,7 +782,31 @@ angular.module('starter.controllers', [])
       CompetitionDataService.getSportImgUrl(item.id, function(imgUrl){
         $scope.trainingForm.imgUrl  = imgUrl.logoURL
       })
+
+      if( item.isTimeAvailable === "true" ){
+        $scope.trainingForm.disableDuration = false;
+      }
+      else {
+        $scope.trainingForm.disableDuration = true;
+      }
+
+      if( item.isDistanceAvailable === "true" ){
+        $scope.trainingForm.disableDistance= false;
+      }
+      else {
+        $scope.trainingForm.disableDistance = true;
+      }
+
+      $scope.trainingForm.maxDistance   = item.maxDistance;
+      $scope.trainingForm.stepDistance  = item.stepDistance;
+      $scope.trainingForm.maxTime       = item.maxTime;
+      $scope.trainingForm.stepTime      = item.stepTime;
+      $scope.trainingForm.distance      = $scope.trainingForm.maxDistance/2 ;
+      $scope.trainingForm.duration      = $scope.trainingForm.maxTime/2;
     }
+
+
+
 
     function onSaveSuccess(){
       $state.go('list')

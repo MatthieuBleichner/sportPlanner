@@ -15,33 +15,32 @@
             <div class="item item-divider">
               Duration {{trainingForm.duration}} minutes
             </div>
-            <div class="item range scroll">
+            <div class="item range scroll" ng-class="{'disableInput':(trainingForm.disableDuration == true)}" >
                 0
                 <input type="range"
                        name="minutes"
                        min="0"
-                       max="120"
-                       step="10"
+                       max={{trainingForm.maxTime}}
+                       step={{trainingForm.stepTime}}
                        ng-model="trainingForm.duration"
                        value="{{trainingForm.duration}}"
                        >
-                120
+                {{trainingForm.maxTime}}
             </div>
             <div class="item item-divider">
               Distance {{trainingForm.distance}} km
             </div>
-            <div class="item range scroll">
+            <div class="item range scroll" ng-class="{'disableInput':(trainingForm.disableDistance == true)}">
               0
               <input type="range"
                      name="minutes"
                      min="0"
-                     max="60"
-                     step="5"
+                     max={{trainingForm.maxDistance}}
+                     step={{trainingForm.stepDistance}}
                      ng-model="trainingForm.distance"
                      value="{{trainingForm.distance}}"
-                     pin="true"
                      >
-              60
+              {{trainingForm.maxDistance}}
             </div>
             <div class="item item-divider">
               Date
