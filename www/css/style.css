@@ -196,7 +196,10 @@
 }
 
 
-
+.disableInput{
+   pointer-events:none;
+    background: #dddddd;
+}
 
 
 
