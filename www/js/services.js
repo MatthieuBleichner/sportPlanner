@@ -135,7 +135,7 @@ $cordovaSQLite.execute(db, 'DELETE FROM T_SPORT WHERE id=6');
       },
       getFutureCompetitions: function(callback){
         $ionicPlatform.ready(function () {
-          $cordovaSQLite.execute(db, 'SELECT * FROM T_COMPETITION WHERE DATE(activityDate) > DATE("now") ORDER BY DATE(activityDate) ').then(function (results) {
+          $cordovaSQLite.execute(db, 'SELECT * FROM T_COMPETITION WHERE DATE(activityDate) >= DATE("now") ORDER BY DATE(activityDate) ').then(function (results) {
             var data = []
 
             for (i = 0, max = results.rows.length; i < max; i++) {
