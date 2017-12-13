@@ -114,6 +114,8 @@ angular.module('starter.controllers', [])
         CompetitionDataService.getAllSports(function(dataSports){
           $scope.sportList = dataSports
         })
+
+        $scope.minDate = new Date();
     })
 
     $scope.openCompetitionList = function(){
@@ -122,6 +124,14 @@ angular.module('starter.controllers', [])
 
     $scope.gotoEdit = function(idNote){
       $state.go('form', {id: idNote})
+    }
+
+    $scope.displayMoreCompetition = function(){
+      $scope.minDate.setFullYear( $scope.minDate.getFullYear() - 1 );
+      CompetitionDataService.getCompetitionsFromDate($scope.minDate, function(data){
+        $scope.itemsList = data
+      })
+
     }
 
 

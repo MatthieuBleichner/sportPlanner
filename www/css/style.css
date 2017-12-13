@@ -27,6 +27,18 @@
   font-size: 128px;
 }
 
+.moreCompetition{
+  position: relative;
+  left : 50%;
+  top: 6px;
+}
+
+.moreCompetition2{
+  position: relative;
+  left : 45.5%;
+  top: 13px;
+}
+
 .button.customBtn{
     left:10px;
     margin:15px;

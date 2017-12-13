@@ -146,6 +146,19 @@ $cordovaSQLite.execute(db, 'DELETE FROM T_SPORT WHERE id=6');
           }, onErrorQuery)
         })
       },
+      getCompetitionsFromDate: function(_date, callback){
+        $ionicPlatform.ready(function () {
+          $cordovaSQLite.execute(db, 'SELECT * FROM T_COMPETITION WHERE DATE(activityDate) >= DATE(?) ORDER BY DATE(activityDate) ', [_date.toISOString()]).then(function (results) {
+            var data = []
+
+            for (i = 0, max = results.rows.length; i < max; i++) {
+              data.push(results.rows.item(i))
+            }
+
+            callback(data)
+          }, onErrorQuery)
+        })
+      },
       getDate: function(id){
           return $cordovaSQLite.execute(db, 'SELECT activityDate FROM T_COMPETITION where id = ?', [id])
       },
