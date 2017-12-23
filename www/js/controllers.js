@@ -8,11 +8,6 @@ angular.module('starter.controllers', [])
         })
         CompetitionDataService.getNext3Trainings(function(dataTrainings){
           $scope.trainingList = dataTrainings
-          for(it=0; it<$scope.trainingList.length;it++)
-          {
-            tmpDate = new Date($scope.trainingList[it].trainingDate);
-            $scope.trainingList[it].displayDate = tmpDate.getTime();
-          }
         })
         CompetitionDataService.getAllSports(function(dataSports){
           $scope.sportList = dataSports
