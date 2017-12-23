@@ -107,6 +107,12 @@
     height:55px
 }
 
+.title-activities{
+    vertical-align:middle;
+    display: inline-block;
+    padding: 5px 0;
+}
+
 .txt-title {
   display: block;
   line-height: .7em;
