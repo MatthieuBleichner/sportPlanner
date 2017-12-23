@@ -15,8 +15,8 @@ angular.module('starter.services', ['ngCordova'])
     function initSportDB() {
             console.info('initSportDB')
       $cordovaSQLite.execute(db, 'INSERT INTO T_SPORT ( name, isDistanceAvailable, isTimeAvailable, isOccurenceAvailable, logoURL, maxDistance, stepDistance, maxTime, stepTime ) VALUES( "running" , "true" , "true" , "false", "img/run.svg", 40, 2, 120, 5 )');
-      $cordovaSQLite.execute(db, 'INSERT INTO T_SPORT ( name, isDistanceAvailable, isTimeAvailable, isOccurenceAvailable, logoURL, maxDistance, stepDistance, maxTime, stepTime ) VALUES( "cycling" , "true" , "true" , "img/bike.svg", "false", 100, 10, 360, 15 )');
-      $cordovaSQLite.execute(db, 'INSERT INTO T_SPORT ( name, isDistanceAvailable, isTimeAvailable, isOccurenceAvailable, logoURL, maxDistance, stepDistance, maxTime, stepTime ) VALUES( "swimming" , "true" , "true" , "img/swim.svg", "false", 6, 0.2, 60, 5 )');
+      $cordovaSQLite.execute(db, 'INSERT INTO T_SPORT ( name, isDistanceAvailable, isTimeAvailable, isOccurenceAvailable, logoURL, maxDistance, stepDistance, maxTime, stepTime ) VALUES( "cycling" , "true" , "true" , "false" , "img/bike.svg", 100, 10, 360, 15 )');
+      $cordovaSQLite.execute(db, 'INSERT INTO T_SPORT ( name, isDistanceAvailable, isTimeAvailable, isOccurenceAvailable, logoURL, maxDistance, stepDistance, maxTime, stepTime ) VALUES( "swimming" , "true" , "true", "false" , "img/swim.svg", 6, 0.2, 60, 5 )');
       $cordovaSQLite.execute(db, 'INSERT INTO T_SPORT ( name, isDistanceAvailable, isTimeAvailable, isOccurenceAvailable, logoURL, maxDistance, stepDistance, maxTime, stepTime ) VALUES( "tennis" , "false" , "true" , "false", "img/tennis.svg", 0, 0, 120, 10 )');
       $cordovaSQLite.execute(db, 'INSERT INTO T_SPORT ( name, isDistanceAvailable, isTimeAvailable, isOccurenceAvailable, logoURL, maxDistance, stepDistance, maxTime, stepTime ) VALUES( "triathlon" , "false" , "false" , "false", "img/triathlon.svg", 0, 0, 0, 0 )');
     }
