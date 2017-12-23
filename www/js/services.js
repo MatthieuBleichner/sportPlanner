@@ -214,9 +214,23 @@ $cordovaSQLite.execute(db, 'DELETE FROM T_SPORT WHERE id=6');
               for (i = 0, max = results.rows.length; i < max; i++) {
                 trainingData.push(results.rows.item(i))
               }
+
+              var trainingMap = new Map();
+              for(trainingIt=0;trainingIt<trainingData.length;trainingIt++)
+              {
+                var key = new Date(trainingData[trainingIt].trainingDate).getTime();
+                var value = trainingMap.get( key ) ;
+                if( value ){
+                  value.push( trainingData[trainingIt] );
+                }else{
+                  value = [ trainingData[trainingIt] ];
+                }
+                trainingMap.set( key, value );
+              }
+
               buildTrainingCache = false;
-              trainingsCache = trainingData;
-              callback(trainingData)
+              trainingsCache = trainingMap;
+              callback(trainingMap)
             }, onErrorQuery)
           })
         }

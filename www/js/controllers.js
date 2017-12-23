@@ -540,7 +540,7 @@ angular.module('starter.controllers', [])
                           if(j < startDay) {
                             $scope.datesDisp[i][j] = {"type":"oldMonth","date":(prevMonthLastDates - startDay + 1)+j};
                           } else {
-                            $scope.getDayTraining( countDatingStart, function(data){
+                            $scope.getDayTrainingFromWeekDay( countDatingStart, function(data){
                               $scope.datesDisp[i][j] = {"type":"currentMonth","date":countDatingStart++, "event":data};
                             })
                           }
@@ -549,7 +549,7 @@ angular.module('starter.controllers', [])
                        for(k=0;k<7;k++) {
                           if(countDatingStart <= endingDateLimit) {
 
-                            $scope.getDayTraining( countDatingStart, function(data){
+                            $scope.getDayTrainingFromWeekDay( countDatingStart, function(data){
                               $scope.datesDisp[i][k] = {"type":"currentMonth","date":countDatingStart++, "event":data};
                             })
                           } else {
@@ -561,24 +561,29 @@ angular.module('starter.controllers', [])
                 }
             }
 
-            $scope.getDayTraining = function(currentDay, callback) {
-              ///TODO: aouch les perfos. C'est debile de faire ca
-              todayDate = currentDay;
-              listOfTrainingForThisDay = [];
-              nextPos = 0;
+            $scope.getDayTrainingFromWeekDay = function(currentWeekDay, callback) {
+              todayDate = currentWeekDay;
               currentDate = new Date(selectedYear, selectedMonth , todayDate);
               currentDate.setHours(9);
               currentDate.setMinutes(30);
               currentDate.setSeconds(0);
               currentDate.setMilliseconds(0);
-              for(trainingIt=0;trainingIt<$scope.trainingList.length;trainingIt++)
-              {
-                if(new Date($scope.trainingList[trainingIt].trainingDate).getTime() == currentDate.getTime() )
+              $scope.getDayTraining(currentDate, callback) ;
+            }
+
+            $scope.getDayTraining = function(currentDay, callback) {
+              listOfTrainingForThisDay = [];
+              nextPos = 0;
+
+              trainings = $scope.trainingList.get( currentDay.getTime() );
+              if( trainings ){
+                for(trainingJt=0;trainingJt<trainings.length;trainingJt++)
                 {
-                  listOfTrainingForThisDay [nextPos] = {"img" : $scope.trainingList[trainingIt].imgUrl ,"duration":$scope.trainingList[trainingIt].duration ,"date":fullDate.format('DD') , "training":$scope.trainingList[trainingIt]};
-                  nextPos++;
+                    listOfTrainingForThisDay [nextPos] = {"img" : trainings[trainingJt].imgUrl ,"duration":trainings[trainingJt].duration ,"date":fullDate.format('DD') , "training":trainings[trainingJt]};
+                    nextPos++;
                 }
               }
+
               callback(listOfTrainingForThisDay)
             }
 
@@ -607,22 +612,17 @@ angular.module('starter.controllers', [])
                   realDate.setMilliseconds(0);
                   dayEvents = [];
                   nextPos = 0;
-                  for(trainingIt=0;trainingIt<$scope.trainingList.length;trainingIt++)
-                  {
-                    currentTrainingDate = new Date($scope.trainingList[trainingIt].trainingDate);
-                    if( currentTrainingDate.getTime() == realDate.getTime() )
-                    {
-                      $scope.weekDaysEvents [dayIt][nextPos] = {"img" : $scope.trainingList[trainingIt].imgUrl ,"duration":$scope.trainingList[trainingIt].duration,"date":fullDate.format('DD') , "training":$scope.trainingList[trainingIt]};
-                      nextPos++;
-                    }
-
+                  var trainingsForThisDay;
+                  $scope.getDayTraining( realDate, function(data){
+                    trainingsForThisDay = data
+                  })
+                  if( trainingsForThisDay.length ){
+                    $scope.weekDaysEvents [dayIt] = trainingsForThisDay;
                   }
-                  if( nextPos === 0 ){
-                    $scope.weekDaysEvents [dayIt][nextPos] = {"img" : "" ,"duration":"","date":fullDate.format('DD'),"id":""};
-                    nextPos++;
-
+                  else{
+                      $scope.weekDaysEvents [dayIt][0] = {"img" : "" ,"duration":"","date":fullDate.format('DD'),"id":""};
                   }
-                  fullDate = dayOfWeek.add('d', 1);
+                  fullDate = dayOfWeek.add( 1, 'd' );
 
                   /*
                    $scope.weekDaysEvents [dayIt][1] = {"type":"currentMonth","date":'a'};
