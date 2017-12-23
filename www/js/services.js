@@ -1,6 +1,6 @@
 angular.module('starter.services', ['ngCordova'])
   .factory('CompetitionDataService', function ($cordovaSQLite, $ionicPlatform) {
-    var db, dbName = "competition107.db"
+    var db, dbName = "competition107.db", trainingsCache, buildTrainingCache = true, sportsCache, buildSportCache = true, competitionsCache, buildCompetitionCache = true
 
     function useWebSql() {
       db = window.openDatabase(dbName, "1.0", "Note database", 200000)
@@ -66,6 +66,7 @@ $cordovaSQLite.execute(db, 'DELETE FROM T_SPORT WHERE id=6');
 
       //Competitions
       createCompetition: function (competition) {
+        buildCompetitionCache = true;
         return $cordovaSQLite.execute(db, 'INSERT INTO T_COMPETITION (title, content, activityDate, sport_id, imgUrl) VALUES(?, ?, ?, ?, ?)', [competition.title, competition.content, competition.myDate.toISOString(), competition.sport_id, competition.imgUrl ])
         .then(function(res){
         }, onErrorQuery)
@@ -121,30 +122,48 @@ $cordovaSQLite.execute(db, 'DELETE FROM T_SPORT WHERE id=6');
         },
 */
       getAll: function(callback){
+          $ionicPlatform.ready(function () {
+            $cordovaSQLite.execute(db, 'SELECT * FROM T_COMPETITION ORDER BY activityDate').then(function (results) {
+              var data = []
+
+              for (i = 0, max = results.rows.length; i < max; i++) {
+                data.push(results.rows.item(i))
+              }
+              callback(data)
+            }, onErrorQuery)
+          })
+
+      },
+      getNext3Competitions: function(callback){
         $ionicPlatform.ready(function () {
-          $cordovaSQLite.execute(db, 'SELECT * FROM T_COMPETITION ORDER BY activityDate').then(function (results) {
+          $cordovaSQLite.execute(db, 'SELECT * FROM T_COMPETITION WHERE DATE(activityDate) >= DATE("now") ORDER BY DATE(activityDate) LIMIT 3').then(function (results) {
             var data = []
 
             for (i = 0, max = results.rows.length; i < max; i++) {
               data.push(results.rows.item(i))
             }
-
             callback(data)
           }, onErrorQuery)
         })
       },
       getFutureCompetitions: function(callback){
-        $ionicPlatform.ready(function () {
-          $cordovaSQLite.execute(db, 'SELECT * FROM T_COMPETITION WHERE DATE(activityDate) >= DATE("now") ORDER BY DATE(activityDate) ').then(function (results) {
-            var data = []
+        if( 'undefined'==competitionsCache ||  true==buildCompetitionCache ){
+          $ionicPlatform.ready(function () {
+            $cordovaSQLite.execute(db, 'SELECT * FROM T_COMPETITION WHERE DATE(activityDate) >= DATE("now") ORDER BY DATE(activityDate) ').then(function (results) {
+              var data = []
 
-            for (i = 0, max = results.rows.length; i < max; i++) {
-              data.push(results.rows.item(i))
-            }
-
-            callback(data)
-          }, onErrorQuery)
-        })
+              for (i = 0, max = results.rows.length; i < max; i++) {
+                data.push(results.rows.item(i))
+              }
+              competitionsCache = data;
+              buildCompetitionCache = false;
+              callback(data)
+            }, onErrorQuery)
+          })
+        }
+        else{
+          callback( competitionsCache );
+        }
       },
       getCompetitionsFromDate: function(_date, callback){
         $ionicPlatform.ready(function () {
@@ -164,6 +183,7 @@ $cordovaSQLite.execute(db, 'DELETE FROM T_SPORT WHERE id=6');
       },
 
       deleteCompetition: function(id){
+        buildCompetitionCache = true;
         return $cordovaSQLite.execute(db, 'DELETE FROM T_COMPETITION where id = ?', [id])
       },
 
@@ -178,6 +198,7 @@ $cordovaSQLite.execute(db, 'DELETE FROM T_SPORT WHERE id=6');
       //TRainings
       createTraining: function (training) {
       console.info('create training')
+      buildTrainingCache = true;
         return $cordovaSQLite.execute(db, 'INSERT INTO T_TRAINING (sport_id, duration, distance, trainingDate, imgUrl, title) VALUES( ? , ? , ? , ? , ? , ?)', [training.sport_id, training.duration, training.distance,training.date.toISOString(),training.imgUrl, training.title]).then(function(res){
         }, onErrorQuery)
       },
@@ -185,17 +206,23 @@ $cordovaSQLite.execute(db, 'DELETE FROM T_SPORT WHERE id=6');
         return $cordovaSQLite.execute(db, 'UPDATE T_TRAINING set sport_id = ?, duration = ?, distance = ?, trainingDate = ?, imgUrl = ?, title = ? where id = ?', [training.sport_id, training.duration, training.distance, training.date, training.imgUrl, training.title, training.id])
       },
       getAllTrainings: function(callback){
-        $ionicPlatform.ready(function () {
-          $cordovaSQLite.execute(db, 'SELECT * FROM T_TRAINING ORDER BY trainingDate').then(function (results) {
-            var trainingData = []
+        if( true==buildTrainingCache || 'undefined'== trainingsCache){
+          $ionicPlatform.ready(function () {
+            $cordovaSQLite.execute(db, 'SELECT * FROM T_TRAINING ORDER BY trainingDate').then(function (results) {
+              var trainingData = []
 
-            for (i = 0, max = results.rows.length; i < max; i++) {
-              trainingData.push(results.rows.item(i))
-            }
-
-            callback(trainingData)
-          }, onErrorQuery)
-        })
+              for (i = 0, max = results.rows.length; i < max; i++) {
+                trainingData.push(results.rows.item(i))
+              }
+              buildTrainingCache = false;
+              trainingsCache = trainingData;
+              callback(trainingData)
+            }, onErrorQuery)
+          })
+        }
+        else{
+          callback( trainingsCache )
+        }
       },
       getNext3Trainings: function(callback){
         $ionicPlatform.ready(function () {
@@ -216,21 +243,27 @@ $cordovaSQLite.execute(db, 'DELETE FROM T_SPORT WHERE id=6');
           return $cordovaSQLite.execute(db, 'SELECT activityDate FROM T_TRAINING where id = ?', [id])
       },
       getTrainingsByDate: function(callback){
+        if( true==buildTrainingCache || 'undefined'== trainingsCache){
+          $ionicPlatform.ready(function () {
+            $cordovaSQLite.execute(db, 'SELECT * FROM T_TRAINING').then(function (results) {
+              var trainingData = []
 
-        $ionicPlatform.ready(function () {
-          $cordovaSQLite.execute(db, 'SELECT * FROM T_TRAINING').then(function (results) {
-            var trainingData = []
-
-            for (i = 0, max = results.rows.length; i < max; i++) {
-              trainingData.push(results.rows.item(i))
-            }
-
-            callback(trainingData)
-          }, onErrorQuery)
-          })
+              for (i = 0, max = results.rows.length; i < max; i++) {
+                trainingData.push(results.rows.item(i))
+              }
+              trainingCache = trainingData;
+              buildTrainingCache = false;
+              callback(trainingData)
+            }, onErrorQuery)
+            })
+          }
+          else{
+            callback(trainingsCache)
+          }
       },
 
       deleteTraining: function(id){
+        buildTrainingCache = true;
         return $cordovaSQLite.execute(db, 'DELETE FROM T_TRAINING where id = ?', [id])
       },
 
@@ -245,17 +278,23 @@ $cordovaSQLite.execute(db, 'DELETE FROM T_SPORT WHERE id=6');
 
       //sport
       getAllSports: function(callback){
-        $ionicPlatform.ready(function () {
-          $cordovaSQLite.execute(db, 'SELECT * FROM T_SPORT').then(function (results) {
-            var sportData = []
+        if( 'undefined'==sportsCache ||  true==buildSportCache ){
+          $ionicPlatform.ready(function () {
+            $cordovaSQLite.execute(db, 'SELECT * FROM T_SPORT').then(function (results) {
+              var sportData = []
 
-            for (i = 0, max = results.rows.length; i < max; i++) {
-              sportData.push(results.rows.item(i))
-            }
-
-            callback(sportData)
-          }, onErrorQuery)
-        })
+              for (i = 0, max = results.rows.length; i < max; i++) {
+                sportData.push(results.rows.item(i))
+              }
+              sportsCache = sportData;
+              buildSportCache = false;
+              callback(sportData)
+            }, onErrorQuery)
+          })
+        }
+        else{
+          callback( sportsCache );
+        }
       },
 
 

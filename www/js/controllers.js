@@ -3,7 +3,7 @@ angular.module('starter.controllers', [])
 
   .controller('ListCtrl', function ($scope,$ionicPlatform, $state, CompetitionDataService, $ionicModal, $ionicPopup) {
     $scope.$on('$ionicView.enter', function(e) {
-        CompetitionDataService.getFutureCompetitions(function(data){
+        CompetitionDataService.getNext3Competitions(function(data){
           $scope.itemsList = data
         })
         CompetitionDataService.getNext3Trainings(function(dataTrainings){
@@ -852,7 +852,7 @@ angular.module('starter.controllers', [])
     }
 
 
-    $scope.confirmDeleteTraining = function(idTraining) {
+    $scope.confirmDelete = function(idTraining) {
       var confirmPopup = $ionicPopup.confirm({
         title: 'Remove a training',
         template: 'Are you sure you want to remove this event ?'
